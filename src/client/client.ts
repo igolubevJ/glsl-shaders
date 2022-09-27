@@ -13,6 +13,9 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
 const uniforms = {
+  u_time: { value: 0.0 },
+  u_mouse: { value: { x: 0.0, y: 0.0 } },
+  u_resolution: { value: { x: 0.0, y: 0.0 } },
   u_color: { value: new THREE.Color(0x00FF00) }
 };
 
