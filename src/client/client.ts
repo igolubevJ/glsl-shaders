@@ -33,6 +33,14 @@ function render() {
   renderer.render(scene, camera);
 }
 
+function move(evt: MouseEvent | TouchEvent) {
+  uniforms.u_mouse.value.x = (<TouchEvent>evt).touches ? 
+    (<TouchEvent>evt).touches[0].clientX : (<MouseEvent>evt).clientX;
+
+  uniforms.u_mouse.value.y = (<TouchEvent>evt).touches ?
+    (<TouchEvent>evt).touches[0].clientY : (<MouseEvent>evt).clientX;
+}
+
 function onWindowResize(  ) {
   const aspectRatio = window.innerWidth / window.innerHeight;
   let width = 0;
@@ -52,6 +60,10 @@ function onWindowResize(  ) {
 
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  if (uniforms.u_resolution !== undefined) {
+    uniforms.u_resolution.value.x = window.innerWidth;
+    uniforms.u_resolution.value.y = window.innerHeight;
+  }
 }
 
 function animate() {
@@ -61,7 +73,12 @@ function animate() {
 
 onWindowResize();
 
-window.addEventListener( 'resize', onWindowResize, false );
+if ('ontouchstart' in window) {
+  document.addEventListener('touchmove', move);
+} else {
+  window.addEventListener( 'resize', onWindowResize, false );
+  window.addEventListener('mousemove', move);
+}
 
 animate();
 
