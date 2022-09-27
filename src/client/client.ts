@@ -12,8 +12,13 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
+const uniforms = {
+  u_color: { value: new THREE.Color(0x00FF00) }
+};
+
 const geometry = new THREE.PlaneGeometry( 1, 1 );
 const material = new THREE.ShaderMaterial({
+  uniforms: uniforms,
   vertexShader: vshader,
   fragmentShader: fshader
 });
