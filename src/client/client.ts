@@ -14,7 +14,7 @@ document.body.appendChild( renderer.domElement );
 
 const geometry = new THREE.PlaneGeometry( 1, 1 );
 const material = new THREE.ShaderMaterial({
-
+  vertexShader: vshader
 });
 
 const plane = new THREE.Mesh( geometry, material );
