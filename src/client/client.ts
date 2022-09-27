@@ -13,6 +13,9 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
 const uniforms = {
+  u_time: { value: 0.0 },
+  u_mouse: { value: { x: 0.0, y: 0.0 } },
+  u_resolution: { value: { x: 0.0, y: 0.0 } },
   u_color: { value: new THREE.Color(0x00FF00) }
 };
 
@@ -28,6 +31,14 @@ scene.add( plane );
 
 function render() {
   renderer.render(scene, camera);
+}
+
+function move(evt: MouseEvent | TouchEvent) {
+  uniforms.u_mouse.value.x = (<TouchEvent>evt).touches ? 
+    (<TouchEvent>evt).touches[0].clientX : (<MouseEvent>evt).clientX;
+
+  uniforms.u_mouse.value.y = (<TouchEvent>evt).touches ?
+    (<TouchEvent>evt).touches[0].clientY : (<MouseEvent>evt).clientX;
 }
 
 function onWindowResize(  ) {
@@ -49,6 +60,10 @@ function onWindowResize(  ) {
 
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  if (uniforms.u_resolution !== undefined) {
+    uniforms.u_resolution.value.x = window.innerWidth;
+    uniforms.u_resolution.value.y = window.innerHeight;
+  }
 }
 
 function animate() {
@@ -58,7 +73,12 @@ function animate() {
 
 onWindowResize();
 
-window.addEventListener( 'resize', onWindowResize, false );
+if ('ontouchstart' in window) {
+  document.addEventListener('touchmove', move);
+} else {
+  window.addEventListener( 'resize', onWindowResize, false );
+  window.addEventListener('mousemove', move);
+}
 
 animate();
 
