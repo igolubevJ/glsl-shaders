@@ -13,7 +13,7 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
 const uniforms = {
-  u_color: { value: new THREE.Color(0xFF0000) }
+  u_color: { value: new THREE.Color(0x00FF00) }
 };
 
 const geometry = new THREE.PlaneGeometry( 1, 1 );
